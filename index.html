@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的品牌首頁</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #fcfbfa;
+            color: #4a4a4a;
+        }
+
+        /* 1. 頂部滿版色塊與 Logo */
+        .top-bar {
+            background-color: #ffffff;
+            width: 100%;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+        }
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333333;
+            letter-spacing: 1px;
+            text-decoration: none;
+        }
+
+        /* 2. 右上角購物車圖示 */
+        .cart-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            text-decoration: none;
+            color: #333333;
+        }
+
+        /* 3. 多頁滑動 Banner 區塊 */
+        .banner-container {
+            width: 100%;
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            margin-bottom: 30px; /* 4. 適當間距 */
+            scrollbar-width: none; /* 隱藏 Firefox 捲軸 */
+        }
+        .banner-container::-webkit-scrollbar {
+            display: none; /* 隱藏 Chrome/Safari 捲軸 */
+        }
+        .banner-slide {
+            flex: 0 0 100%;
+            width: 100%;
+            scroll-snap-align: start;
+        }
+        .banner-slide img {
+            width: 100%;
+            height: 350px; /* 可依喜好調整 Banner 高度 */
+            object-fit: cover;
+            display: block;
+        }
+
+        /* 容器限制寬度 */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 15px 40px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #555555;
+            letter-spacing: 1px;
+        }
+
+        /* 5. 兩欄商品圖片區塊 */
+        .product-grid {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        .product-item {
+            flex: 1;
+            background: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s;
+        }
+        .product-item:hover {
+            transform: translateY(-3px);
+        }
+        .product-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background-color: #eaeaea;
+        }
+        .product-info {
+            padding: 12px;
+            text-align: center;
+        }
+        .product-name {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .product-price {
+            font-size: 14px;
+            color: #d97777;
+            font-weight: bold;
+        }
+
+        /* 6. LINE 和 IG 連結圖示並排 */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            text-decoration: none;
+            font-size: 18px;
+            transition: 0.2s;
+        }
+        .social-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* 響應式手機版微調 */
+        @media (max-width: 480px) {
+            .banner-slide img {
+                height: 220px; /* 手機版 Banner 高度稍微調低一點更適合 */
+            }
+            .product-img {
+                height: 140px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. 頂部滿版色塊與 Logo & 2. 右上角購物車 -->
+    <header class="top-bar">
+        <a href="index.html" class="logo">✨ 你的品牌名稱</a>
+        <a href="#" class="cart-icon" title="購物車">🛒</a>
+    </header>
+
+    <!-- 3. 多頁滑動 Banner 區塊 -->
+    <div class="banner-container">
+        <!-- 第一張 Banner -->
+        <div class="banner-slide">
+            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" alt="Banner 1">
+        </div>
+        <!-- 第二張 Banner -->
+        <div class="banner-slide">
+            <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=80" alt="Banner 2">
+        </div>
+        <!-- 第三張 Banner -->
+        <div class="banner-slide">
+            <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1200&q=80" alt="Banner 3">
+        </div>
+    </div>
+
+    <div class="container">
+        
+        <div class="section-title">—— 精選商品 ——</div>
+
+        <!-- 5. 兩欄商品圖片（可點擊跳轉） -->
+        <div class="product-grid">
+            <a href="detail.html" class="product-item">
+                <img class="product-img" src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=500&q=80" alt="商品 1">
+                <div class="product-info">
+                    <div class="product-name">商品名稱 A</div>
+                    <div class="product-price">NT$ 1,380</div>
+                </div>
+            </a>
+
+            <a href="detail.html" class="product-item">
+                <img class="product-img" src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=500&q=80" alt="商品 2">
+                <div class="product-info">
+                    <div class="product-name">商品名稱 B</div>
+                    <div class="product-price">NT$ 990</div>
+                </div>
+            </a>
+        </div>
+
+        <div class="section-title">—— 追蹤我們 ——</div>
+
+        <!-- 6. LINE 和 IG 連結圖示並排 -->
+        <div class="social-links">
+            <a href="https://line.me/R/" target="_blank" class="social-btn" title="LINE 官方帳號">💚</a>
+            <a href="https://instagram.com/" target="_blank" class="social-btn" title="Instagram">📸</a>
+        </div>
+
+    </div>
+
+</body>
+</html>
