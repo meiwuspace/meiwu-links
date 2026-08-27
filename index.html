@@ -46,7 +46,11 @@
             color: #333333;
         }
 
-        /* 3. 多頁滑動 Banner 區塊 */
+        /* 3. 多頁滑動 Banner 與小圓點指示器 */
+        .banner-wrapper {
+            position: relative;
+            margin-bottom: 30px;
+        }
         .banner-container {
             width: 100%;
             display: flex;
@@ -54,11 +58,10 @@
             scroll-snap-type: x mandatory;
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
-            margin-bottom: 30px; /* 4. 適當間距 */
-            scrollbar-width: none; /* 隱藏 Firefox 捲軸 */
+            scrollbar-width: none;
         }
         .banner-container::-webkit-scrollbar {
-            display: none; /* 隱藏 Chrome/Safari 捲軸 */
+            display: none;
         }
         .banner-slide {
             flex: 0 0 100%;
@@ -67,9 +70,34 @@
         }
         .banner-slide img {
             width: 100%;
-            height: 350px; /* 可依喜好調整 Banner 高度 */
+            height: 350px;
             object-fit: cover;
             display: block;
+        }
+
+        /* Banner 小圓點指示器 */
+        .banner-dots {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 6px 12px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .dot.active {
+            background-color: #ffffff;
+            transform: scale(1.2);
         }
 
         /* 容器限制寬度 */
@@ -87,39 +115,47 @@
             letter-spacing: 1px;
         }
 
-        /* 5. 兩欄商品圖片區塊 */
+        /* 5. 兩欄商品排版（圖片與文字獨立拆開） */
         .product-grid {
             display: flex;
             gap: 15px;
             margin-bottom: 40px;
         }
-        .product-item {
+        .product-card {
             flex: 1;
-            background: #ffffff;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
             text-decoration: none;
             color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+        /* 圖片獨立框 */
+        .product-img-box {
+            width: 100%;
+            height: 180px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #ffffff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+            margin-bottom: 8px; /* 圖片與下方文字的適當間距 */
             transition: transform 0.2s;
         }
-        .product-item:hover {
+        .product-card:hover .product-img-box {
             transform: translateY(-3px);
         }
         .product-img {
             width: 100%;
-            height: 180px;
+            height: 100%;
             object-fit: cover;
-            background-color: #eaeaea;
         }
+        /* 文字說明獨立出來，不與圖片框黏在一起 */
         .product-info {
-            padding: 12px;
-            text-align: center;
+            text-align: left; /* 靠左對齊更有質感，也可改成 center */
+            padding: 0 4px;
         }
         .product-name {
             font-size: 14px;
-            margin-bottom: 5px;
             color: #333;
+            margin-bottom: 4px;
         }
         .product-price {
             font-size: 14px;
@@ -154,9 +190,9 @@
         /* 響應式手機版微調 */
         @media (max-width: 480px) {
             .banner-slide img {
-                height: 220px; /* 手機版 Banner 高度稍微調低一點更適合 */
+                height: 220px;
             }
-            .product-img {
+            .product-img-box {
                 height: 140px;
             }
         }
@@ -164,44 +200,51 @@
 </head>
 <body>
 
-    <!-- 1. 頂部滿版色塊與 Logo & 2. 右上角購物車 -->
+    <!-- 1. 頂部滿版色塊與 Logo -->
     <header class="top-bar">
         <a href="index.html" class="logo">✨ 你的品牌名稱</a>
         <a href="#" class="cart-icon" title="購物車">🛒</a>
     </header>
 
-    <!-- 3. 多頁滑動 Banner 區塊 -->
-    <div class="banner-container">
-        <!-- 第一張 Banner -->
-        <div class="banner-slide">
-            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" alt="Banner 1">
+    <!-- 3. 多頁滑動 Banner 與小圓點指示器 -->
+    <div class="banner-wrapper">
+        <div class="banner-container" id="bannerContainer">
+            <div class="banner-slide">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" alt="Banner 1">
+            </div>
+            <div class="banner-slide">
+                <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=80" alt="Banner 2">
+            </div>
+            <div class="banner-slide">
+                <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1200&q=80" alt="Banner 3">
+            </div>
         </div>
-        <!-- 第二張 Banner -->
-        <div class="banner-slide">
-            <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=80" alt="Banner 2">
-        </div>
-        <!-- 第三張 Banner -->
-        <div class="banner-slide">
-            <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1200&q=80" alt="Banner 3">
-        </div>
+        <!-- 小圓點容器（數量會自動對應圖片張數） -->
+        <div class="banner-dots" id="bannerDots"></div>
     </div>
 
     <div class="container">
         
         <div class="section-title">—— 精選商品 ——</div>
 
-        <!-- 5. 兩欄商品圖片（可點擊跳轉） -->
+        <!-- 5. 兩欄商品圖片與文字分離 -->
         <div class="product-grid">
-            <a href="detail.html" class="product-item">
-                <img class="product-img" src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=500&q=80" alt="商品 1">
+            <!-- 商品 1 -->
+            <a href="detail.html" class="product-card">
+                <div class="product-img-box">
+                    <img class="product-img" src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=500&q=80" alt="商品 1">
+                </div>
                 <div class="product-info">
-                    <div class="product-name">商品名稱 A</div>
+                    <div class="product-name">商品名稱 A </div>
                     <div class="product-price">NT$ 1,380</div>
                 </div>
             </a>
 
-            <a href="detail.html" class="product-item">
-                <img class="product-img" src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=500&q=80" alt="商品 2">
+            <!-- 商品 2 -->
+            <a href="detail.html" class="product-card">
+                <div class="product-img-box">
+                    <img class="product-img" src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=500&q=80" alt="商品 2">
+                </div>
                 <div class="product-info">
                     <div class="product-name">商品名稱 B</div>
                     <div class="product-price">NT$ 990</div>
@@ -212,12 +255,42 @@
         <div class="section-title">—— 追蹤我們 ——</div>
 
         <!-- 6. LINE 和 IG 連結圖示並排 -->
+        讓大家能夠透過社群媒體找到你
         <div class="social-links">
             <a href="https://line.me/R/" target="_blank" class="social-btn" title="LINE 官方帳號">💚</a>
             <a href="https://instagram.com/" target="_blank" class="social-btn" title="Instagram">📸</a>
         </div>
 
     </div>
+
+    <!-- 自動連動 Banner 小圓點的極輕量 JavaScript -->
+    <script>
+        const container = document.getElementById('bannerContainer');
+        const slides = container.querySelectorAll('.banner-slide');
+        const dotsContainer = document.getElementById('bannerDots');
+
+        // 自動生成對應數量的小圓點
+        slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (index === 0) dot.classList.add('active');
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = dotsContainer.querySelectorAll('.dot');
+
+        // 監聽滑動事件，即時切換變深的圓點
+        container.addEventListener('scroll', () => {
+            const index = Math.round(container.scrollLeft / container.clientWidth);
+            dots.forEach((dot, i) => {
+                if (i === index) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>
