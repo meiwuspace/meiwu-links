@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta name="robots" content="noindex, nofollow">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小室美物</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f7f3f0;
+            color: #4a4a4a;
+        }
+
+        /* 1. 頂部滿版色塊與 Logo */
+        .top-bar {
+            background-color: #E5CEC8;
+            width: 100%;
+            padding: 8px 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+        }
+        .logo {
+            font-size: 40px;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 1px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            height: 40px;
+            width: auto;
+            display: block;
+        }
+
+        /* 2. 右上角購物車圖示 */
+        .cart-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            text-decoration: none;
+            color: #4A3B32;
+            display: flex;
+            align-items: center;
+        }
+        .cart-icon svg {
+            width: 24px;
+            height: 24px;
+            display: block;
+        }
+
+        /* 3. 多頁滑動 Banner 與小圓點指示器 */
+        .banner-wrapper {
+            position: relative;
+            margin-bottom: 0px;
+        }
+        .banner-container {
+            width: 100%;
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .banner-container::-webkit-scrollbar {
+            display: none;
+        }
+        .banner-slide {
+            flex: 0 0 100%;
+            width: 100%;
+            scroll-snap-align: start;
+        }
+        .banner-slide img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Banner 小圓點指示器 */
+        .banner-dots {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 6px 12px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .dot.active {
+            background-color: #ffffff;
+            transform: scale(1.2);
+        }
+
+        /* 4. 品牌理念區塊 (左右並排) */
+        .brand-story-section {
+            display: flex;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+        .brand-text-box {
+            flex: 2;
+            background-color: #E5CEC8;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .brand-subtitle {
+            font-size: 13px;
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+            color: #4A3B32;
+            font-weight: 400;
+        }
+        /* 統一顏文字的白色與大小間距 */
+        .brand-symbol {
+            color: #ffffff;
+            font-size: 16px;
+            margin: 5px 0;
+        }
+        .brand-title {
+            font-size: 22px;
+            font-style: italic;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #FFDB64;
+        }
+        .brand-quote {
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+        .brand-desc {
+            font-size: 13px;
+            letter-spacing: 1.5px;
+            line-height: 1.5;
+            color: #4A3B32;
+            font-weight: 400;
+        }
+        .brand-img-box {
+            flex: 1;
+            height: auto;
+        }
+        .brand-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* 容器限制寬度 */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 15px 40px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            color: #4A3B32;
+            letter-spacing: 1px;
+        }
+
+        .section-title.second {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        /* 5. 兩欄商品排版 */
+        .product-grid {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .product-card {
+            flex: 1;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-img-box {
+            width: 100%;
+            height: 300px;
+            border-radius: 4px;
+            overflow: hidden;
+            background: #ffffff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+            margin-bottom: 8px;
+            transition: transform 0.2s;
+        }
+        .product-card:hover .product-img-box {
+            transform: translateY(-3px);
+        }
+        .product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-info {
+            text-align: left;
+            padding: 0 4px;
+            margin-bottom: 20px;
+        }
+        .product-name {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        .product-price {
+            font-size: 14px;
+            color: #d97777;
+            font-weight: bold;
+        }
+
+        /* 第二組精選商品的專屬滿版色塊容器 */
+        .second-section-wrapper {
+            background-color: #E5CEC8;
+            width: 100%;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            margin-bottom: 0px;
+        }
+
+        /* 6. 底部社群橫幅區塊 */
+        .social-banner-section {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 0px;
+            overflow: hidden;
+        }
+        .social-bg-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+        .social-banner-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        .social-title {
+            color: #ffffff;
+            font-size: 16px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            text-decoration: none;
+            font-size: 18px;
+            transition: 0.2s;
+            color: #4A3B32;
+        }
+        .social-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* 響應式手機版微調 */
+        @media (max-width: 480px) {
+            .banner-slide img {
+                height: 220px;
+            }
+            .brand-story-section {
+                flex-direction: column;
+            }
+            .product-img-box {
+                height: 160px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. 頂部滿版色塊與 Logo -->
+    <header class="top-bar">
+        <a href="index.html" class="logo">
+            <img src="IMG_2327.png" alt="小室美物 Logo">
+        </a>
+
+        <!-- 右上角的購物車 -->
+        <a href="https://myship.7-11.com.tw/general/detail/GM2608275379055" target="_blank" class="cart-icon" title="購物車">
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.9 107.5" style="enable-background:new 0 0 122.9 107.5;" xml:space="preserve">
+                <g><path fill="currentColor" d="M3.9,7.9C1.8,7.9,0,6.1,0,3.9C0,1.8,1.8,0,3.9,0h10.2c0.1,0,0.3,0,0.4,0c3.6,0.1,6.8,0.8,9.5,2.5c3,1.9,5.2,4.8,6.4,9.1 c0,0.1,0,0.2,0.1,0.3l1,4H119c2.2,0,3.9,1.8,3.9,3.9c0,0.4-0.1,0.8-0.2,1.2l-10.2,41.1c-0.4,1.8-2,3-3.8,3v0H44.7 c1.4,5.2,2.8,8,4.7,9.3c2.3,1.5,6.3,1.6,13,1.5h0.1v0h45.2c2.2,0,3.9,1.8,3.9,3.9c0,2.2-1.8,3.9-3.9,3.9H62.5v0 c-8.3,0.1-13.4-0.1-17.5-2.8c-4.2-2.8-6.4-7.6-8.6-16.3l0,0L23,13.9c0-0.1,0-0.1-0.1-0.2c-0.6-2.2-1.6-3.7-3-4.5 c-1.4-0.9-3.3-1.3-5.5-1.3c-0.1,0-0.2,0-0.3,0H3.9L3.9,7.9z M96,88.3c5.3,0,9.6,4.3,9.6,9.6c0,5.3-4.3,9.6-9.6,9.6 c-5.3,0-9.6-4.3-9.6-9.6C86.4,92.6,90.7,88.3,96,88.3L96,88.3z M53.9,88.3c5.3,0,9.6,4.3,9.6,9.6c0,5.3-4.3,9.6-9.6,9.6 c-5.3,0-9.6-4.3-9.6-9.6C44.3,92.6,48.6,88.3,53.9,88.3L53.9,88.3z M33.7,23.7l8.9,33.5h63.1l8.3-33.5H33.7L33.7,23.7z"/></g>
+            </svg>
+        </a>
+    </header>
+
+    <!-- 3. 多頁滑動 Banner 與小圓點指示器 -->
+    <div class="banner-wrapper">
+        <div class="banner-container" id="bannerContainer">
+            <div class="banner-slide">
+                <img src="IMG_2333.jpeg" alt="Banner 1">
+            </div>
+            <div class="banner-slide">
+                <img src="IMG_2334.jpeg" alt="Banner 2">
+            </div>
+            <div class="banner-slide">
+                <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1200&q=80" alt="Banner 3">
+            </div>
+        </div>
+        <div class="banner-dots" id="bannerDots"></div>
+    </div>
+
+    <!-- 4. 品牌理念區塊 (左右並排、樣式與間距已調整) -->
+    <section class="brand-story-section">
+        <div class="brand-text-box">
+            <div class="brand-subtitle">小室美物</div>
+            <div class="brand-symbol">⊹</div>
+            <div class="brand-title">Live your favorite way.</div>
+            <div class="brand-quote">“把日常點綴成喜歡樣子”</div>
+            <div class="brand-symbol" style="margin-bottom: 15px;">⊹</div>
+            <div class="brand-desc">
+                把「花藝」延伸成一種生活態度<br>
+                在這裡，與一些美好的花草事物相遇<br>
+                找回生活本該有的緩慢與浪漫
+            </div>
+        </div>
+        <div class="brand-img-box">
+            <img src="IMG_3060.jpeg" alt="品牌情境圖">
+        </div>
+    </section>
+
+    <div class="container">
+        
+        <!-- 第一組商品：精選商品(微縮場景系列) -->
+        <div class="section-title">| 精選商品-微縮場景系列 |</div>
+
+        <!-- 2x2 四宮格第一排 (商品 1 & 2) -->
+        <div class="product-grid">
+            <a href="https://myship.7-11.com.tw/general/detail/GM2608275379055" target="_blank" class="product-card">
+                <div class="product-img-box">
+                    <img class="product-img" src="IMG_3060.jpeg" alt="商品 1">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">商品名稱 A</div>
+                    <div class="product-price">NT$ 1,380</div>
+                </div>
+            </a>
+
+            <a href="https://myship.7-11.com.tw/general/detail/GM2608275379055" target="_blank" class="product-card">
+                <div class="product-img-box">
+                    <img class="product-img" src="IMG_2324.jpeg" alt="商品 2">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">商品名稱 B</div>
+                    <div class="product-price">NT$ 990</div>
+                </div>
+            </a>
+        </div>
+
+        <!-- 2x2 四宮格第二排 (商品 3 & 4) -->
+        <div class="product-grid">
+            <a href="https://myship.7-11.com.tw/general/detail/GM2608275379055" target="_blank" class="product-card">
+                <div class="product-img-box">
+                    <img class="product-img" src="IMG_3060.jpeg" alt="商品 3">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">商品名稱 C</div>
+                    <div class="product-price">NT$ 1,200</div>
+                </div>
+            </a>
+
+            <a href="https://myship.7-11.com.tw/general/detail/GM2608275379055" target="_blank" class="product-card">
+                <div class="product-img-box">
+                    <img class="product-img" src="IMG_2324.jpeg" alt="商品 4">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">商品名稱 D</div>
+                    <div class="product-price">NT$ 880</div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+
+    <!-- 第二組商品區域：加入與頂部同款的滿版色塊包覆 -->
+    <div class="second-section-wrapper">
+        <div class="container" style="padding-bottom: 0;">
+            
+            <div class="section-title second">| 精選商品 |</div>
+
+            <!-- 第二組 2x2 四宮格第一排 (商品 5 & 6) -->
+            <div class="product-grid">
+                <a href="https://myship.7-11.com.tw/general/detail/GM2608275379055" target="_blank" class="product-card">
+                    <div class="product-img-box">
+                        <img class="product-img" src="IMG_3060.jpeg" alt="商品 5">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">商品名稱 E</div>
+                        <div class="product-price">NT$ 1,500</div>
+                    </div>
+                </a>
+
+                <a href="https://myship.7-11.com.tw/general/detail/GM2608275379055" target="_blank" class="product-card">
+                    <div class="product-img-box">
+                        <img class="product-img" src="IMG_2324.jpeg" alt="商品 6">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">商品名稱 F</div>
+                        <div class="product-price">NT$ 790</div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- 第二組 2x2 四宮格第二排 (商品 7 & 8) -->
+            <div class="product-grid">
+                <a href="https://myship.7-11.com.tw/general/detail/GM2608275379055" target="_blank" class="product-card">
+                    <div class="product-img-box">
+                        <img class="product-img" src="IMG_3060.jpeg" alt="商品 7">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">商品名稱 G</div>
+                        <div class="product-price">NT$ 1,100</div>
+                    </div>
+                </a>
+
+                <a href="https://myship.7-11.com.tw/general/detail/GM2608275379055" target="_blank" class="product-card">
+                    <div class="product-img-box">
+                        <img class="product-img" src="IMG_2324.jpeg" alt="商品 8">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">商品名稱 H</div>
+                        <div class="product-price">NT$ 950</div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- 6. 底部社群橫幅區塊 (帶背景圖與並排按鈕) -->
+    <div class="social-banner-section">
+        <img class="social-bg-img" src="IMG_2333.jpeg" alt="追蹤我們背景">
+        <div class="social-banner-content">
+            <div class="social-title">追蹤/聯絡我們</div>
+            <div class="social-links">
+                <a href="https://line.me/R/" target="_blank" class="social-btn" title="LINE 官方帳號">
+                    <svg width="24" height="24" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M506 102.186v307.628C506 462.9 462.9 506 409.814 506H102.186C49.1 506 6 462.9 6 409.814V102.186C6 49.1 49.1 6 102.186 6h307.628C462.9 6 506 49.1 506 102.186z" fill="#06c755"/>
+                        <path d="M422.656 232.437c0-74.593-74.781-135.28-166.703-135.28S89.25 157.843 89.25 232.436c0 66.875 59.375 122.891 139.406 133.47 5.438 1.171 12.828 3.577 14.688 8.218 1.687 4.219 1.11 10.828.547 15.078 0 0-1.953 11.766-2.375 14.266-.735 4.218-3.36 16.484 14.437 9 17.797-7.485 96-56.531 130.969-96.797 24.156-26.485 35.734-53.422 35.734-83.235z" fill="#fff" fill-rule="nonzero"/>
+                        <path d="M367.188 275.516h-46.875a3.14 3.14 0 01-3.125-3.125v-72.735a3.14 3.14 0 013.125-3.125h46.875a3.14 3.14 0 013.125 3.125v11.828a3.14 3.14 0 01-3.125 3.125h-31.829v12.266h31.829a3.14 3.14 0 013.125 3.125v11.938a3.14 3.14 0 01-3.125 3.125h-31.829v12.28h31.829a3.14 3.14 0 013.125 3.126v11.812l.001.11a3.14 3.14 0 01-3.125 3.125h-.001zM193.953 275.516a3.14 3.14 0 003.125-3.125v-11.813a3.14 3.14 0 00-3.125-3.125h-31.828v-57.812a3.14 3.14 0 00-3.125-3.125h-11.875A3.14 3.14 0 00144 199.64v72.703a3.14 3.14 0 003.125 3.125H194l-.047.047z" fill="#06c755" fill-rule="nonzero"/>
+                        <path d="M225.328 199.11v73.685a2.721 2.721 0 01-2.72 2.72H209.86a2.721 2.721 0 01-2.72-2.72v-73.684a2.721 2.721 0 012.72-2.72h12.747a2.721 2.721 0 012.72 2.72z" fill="#06c755"/>
+                        <path d="M302.625 196.39h-11.813a3.14 3.14 0 00-3.125 3.126v43.218l-33.28-44.953a1.922 1.922 0 00-.266-.328l-.188-.187-.172-.141h-.093l-.172-.125h-.094l-.172-.094h-13.234a3.14 3.14 0 00-3.125 3.125v72.75a3.14 3.14 0 003.125 3.125h11.828a3.14 3.14 0 003.125-3.125v-43.64l33.328 45c.219.318.494.593.812.812l.188.125h.094l.156.078h.484c.277.069.56.105.844.11h11.75a3.14 3.14 0 003.125-3.125v-72.563-.062a3.14 3.14 0 00-3.125-3.125z" fill="#06c755" fill-rule="nonzero"/>
+                    </svg>
+                </a>
+                <a href="https://www.instagram.com/meiwu.space?igsi=MTJhZnU5dWRvOG5ycQ%3D%3D&utm_source=qr/" target="_blank" class="social-btn" title="Instagram">
+                    <svg width="22" height="22" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                        <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.9 1.7-67.7 9.9-93.9 36.2s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 自動連動 Banner 小圓點的極輕量 JavaScript -->
+    <script>
+        const container = document.getElementById('bannerContainer');
+        const slides = container.querySelectorAll('.banner-slide');
+        const dotsContainer = document.getElementById('bannerDots');
+
+        slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (index === 0) dot.classList.add('active');
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = dotsContainer.querySelectorAll('.dot');
+
+        container.addEventListener('scroll', () => {
+            const index = Math.round(container.scrollLeft / container.clientWidth);
+            dots.forEach((dot, i) => {
+                if (i === index) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        });
+    </script>
+
+    <!-- 頁尾版權宣告 -->
+    <footer style="text-align: center; padding: 20px 0; font-size: 12px; color: #999; margin-top: 0px; background-color: #f7f3f0;">
+        © 2026 小室美物. All Rights Reserved.
+    </footer>
+</body>
+</html>
